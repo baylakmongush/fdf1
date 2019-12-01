@@ -6,12 +6,13 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 15:52:44 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/01 18:52:06 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:30:55 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
+#define IMJ "./*jpeg"
 // gcc -I minilibx -L minilibx -lmlx -framework OpenGL -framework Appkit main.c libft/libft.a
 // gcc -I minilibx_macos minilibx_macos/libmlx.a -framework OpenGL -framework Appkit main.c libft/libft.a
 
@@ -195,11 +196,29 @@ int     key_press(int key_code, fdf_t *map)
     if (key_code == 69)
         map->zoom += 10;
     if (key_code == 78 && map->zoom > 0)
-    {
         map->zoom -= 10;
+    if (key_code == 4)
+    {
+        map->window1 = mlx_new_window(map->mlx_ptr, 800, 200, "HELP");
+        mlx_string_put(map->mlx_ptr, map->window1, 0, 0, 0xccffff, "1. PRESS buttons 'UP', 'LEFT',");
+        mlx_string_put(map->mlx_ptr, map->window1, 310, 0, 0xccccff, "'RIGHT', 'DOWN', if you want to move map,");
+        mlx_string_put(map->mlx_ptr, map->window1, 0, 40, 0xcc99ff, "or 'W', 'A', 'D', 'S'.");
+        mlx_string_put(map->mlx_ptr, map->window1, 0, 80, 0xcc66ff, "2. PRESS buttons '+', '-', ");
+        mlx_string_put(map->mlx_ptr, map->window1, 270, 80, 0xcc33ff, "if you want to zoom up or down map.");
+        mlx_string_put(map->mlx_ptr, map->window1, 0, 120, 0xcc00ff, "3. PRESS 'ESC', ");
+        mlx_string_put(map->mlx_ptr, map->window1, 160, 120, 0x9933cc, "if you want to exit.");
     }
     draw_map(map);
     mlx_clear_window(map->mlx_ptr, map->window);
+    mlx_string_put(map->mlx_ptr, map->window, 10, 10, 0xfff000, "HELP");
+    mlx_string_put(map->mlx_ptr, map->window, 60, 10, 0xfff000, "(Press 'H')");
+    return (0);
+}
+
+int mouse_press(int button, int x, int y, fdf_t *map)
+{
+    if (button == 1 && x > 10 && x < 30 && y > 10 && y < 30)
+        map->window1 = mlx_new_window(map->mlx_ptr, 500, 500, "FDF");
     return (0);
 }
 
@@ -217,11 +236,17 @@ int			 main(int argc, char **argv)
         ft_createmap(&map_struct, argv[1]);
         map_struct->mlx_ptr = mlx_init();
         map_struct->window = mlx_new_window(map_struct->mlx_ptr, 1000, 1000, "FDF");
-        map_struct->move_y = 0;
-        map_struct->move_x = 0;
+        map_struct->move_y = 200;
+        map_struct->move_x = 200;
         map_struct->zoom = 1;
         draw_map(map_struct);
         mlx_key_hook(map_struct->window, key_press, map_struct);
+        mlx_string_put(map_struct->mlx_ptr, map_struct->window, 10, 10, 0xfff00f, "HELP");
+        mlx_string_put(map_struct->mlx_ptr, map_struct->window, 60, 10, 0xfff000, "(Press 'H')");
+   //     mlx_string_put(map_struct->mlx_ptr, map_struct->window1, 10, 10, 0xfff00f, "HELP");
+    //    mlx_mouse_hook(map_struct->window, mouse_press, map_struct);
+     //   mlx_key_hook(map_struct->window1, key_press1, map_struct);
+   //     mlx_string_put(map_struct->mlx_ptr, map_struct->window1, 10, 10, 0xfff00f, "HELP");
         mlx_loop(map_struct->mlx_ptr);
     }
     return (0);

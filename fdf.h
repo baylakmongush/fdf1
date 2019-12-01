@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 15:52:44 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/01 18:38:38 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:00:17 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct fdf_l
     int         height;
     void        *mlx_ptr;
     void        *window;
+    void        *window1;
     int         color;
     int         move_x;
     int         move_y;
